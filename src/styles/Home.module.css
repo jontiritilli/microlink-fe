@@ -6,12 +6,13 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background-color: #fff;
 }
 
 .submitUrl {
   margin-top: 5px;
   display: block;
-  background-color: blue;
+  background-color: #B88E8D;
   font-size: 18px;
   border: none;
   border-radius: 3px;
@@ -100,16 +101,39 @@
   max-width: 1200px;
   margin-top: -20px;
 }
+
+.gridResult {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 20px;
+}
+
 .card {
   padding: 1.5rem;
+  background-color: #34435E;
   width: 100%;
   max-width: 800px;
   text-align: left;
   color: inherit;
-  box-shadow: 5px 5px 5px rgb(206, 206, 206);
-  background: white;
+  box-shadow: 5px 5px 5px rgb(123 96 129 / 52%);
   text-decoration: none;
-  border: 1px solid #eaeaea;
+  border-radius: 6px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.cardShortUrl {
+  padding: 1.5rem;
+  background-color: #D8D2E1;
+  width: 80%;
+  max-width: 800px;
+  text-align: left;
+  color: inherit;
+  box-shadow: 5px 5px 5px rgb(123 96 129 / 52%);
+  text-decoration: none;
   border-radius: 6px;
   transition: color 0.15s ease, border-color 0.15s ease;
 }
@@ -126,12 +150,12 @@
 
 .cardTitle {
   padding: 1.5rem 0 4.5rem 0;
+  background-color: #D8D2E1;
   width: 100%;
   text-align: left;
   color: inherit;
-  box-shadow: 5px 5px 5px rgb(206, 206, 206);
+  box-shadow: 5px 5px 5px rgb(123 96 129 / 52%);
   text-decoration: none;
-  border: 1px solid #eaeaea;
   border-radius: 6px;
   transition: color 0.15s ease, border-color 0.15s ease;
 }

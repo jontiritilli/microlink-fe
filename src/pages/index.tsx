@@ -44,9 +44,8 @@ export default function Home() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     clearState();
-
-    if (!validUrl.isUri(url.longUrl)) {
-      setErrorState(`Must be a fully qualified URL`);
+    if (!url.longUrl || !validUrl.isUri(url.longUrl)) {
+      return setErrorState(`Must be a fully qualified URL`);
     }
 
     const shortUrl = await fetch(`/api/shortenUrl`, {
@@ -111,9 +110,10 @@ export default function Home() {
             ) : null}
           </div>
         </div>
+
         {url.shortUrl ? (
-          <div className={styles.grid}>
-            <div className={styles.card}>
+          <div className={styles.gridResult}>
+            <div className={styles.cardShortUrl}>
               <div>Got that all shortened up for you:</div>
               <a target="_blank" href={url.shortUrl} rel="noreferrer">
                 {url.shortUrl}
@@ -122,8 +122,6 @@ export default function Home() {
           </div>
         ) : null}
       </main>
-
-      <footer className={styles.footer} />
     </div>
   );
 }
