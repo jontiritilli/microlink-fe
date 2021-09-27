@@ -17,6 +17,7 @@
   "plugins": ["import", "jsx-a11y", "react", "react-hooks", "prettier"],
   "extends": ["airbnb", "prettier", "next", "next/core-web-vitals"],
   "rules": {
+    "consistent-return": "off",
     "prettier/prettier": "error",
     "camelcase": "off",
     "import/prefer-default-export": "off",
@@ -53,6 +54,7 @@
       "plugins": ["@typescript-eslint/eslint-plugin"],
       "extends": ["plugin:@typescript-eslint/recommended", "prettier"],
       "rules": {
+        "@typescript-eslint/consistent-return": "off",
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/explicit-module-boundary-types": "off",
         "no-use-before-define": [0],

@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import styles from '@/styles/Home.module.css';
-import React, { SyntheticEvent, useState } from 'react';
+import React, { useState } from 'react';
 import validUrl from 'valid-url';
 
 export default function Home() {
@@ -24,11 +24,11 @@ export default function Home() {
   };
 
   const clearState = () => {
-    setUrl((prevState) => ({
+    setUrl({
       longUrl: ``,
       shortUrl: ``,
       error: ``,
-    }));
+    });
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,35 +41,36 @@ export default function Home() {
     }));
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     clearState();
     if (!url.longUrl || !validUrl.isUri(url.longUrl)) {
       return setErrorState(`Must be a fully qualified URL`);
     }
-
-    const shortUrl = await fetch(`/api/shortenUrl`, {
-      body: JSON.stringify({
-        longUrl: url.longUrl,
-      }),
-      headers: {
-        'Content-Type': `application/json`,
-      },
-      method: `POST`,
-    })
-      .then(async (res) => {
-        const json = await res.json();
-        const { shortUrl: newUrl } = json;
-
-        setUrl((prevState) => ({
-          ...prevState,
-          shortUrl: newUrl,
-        }));
+    try {
+      await fetch(`/api/shortenUrl`, {
+        body: JSON.stringify({
+          longUrl: url.longUrl,
+        }),
+        headers: {
+          'Content-Type': `application/json`,
+        },
+        method: `POST`,
       })
-      .catch((error) => {
-        setErrorState(error.message);
-      });
-  };
+        .then(async (res) => {
+          const json = await res.json();
+          const { shortUrl: newUrl } = json;
+
+          return setUrl((prevState) => ({
+            ...prevState,
+            shortUrl: newUrl,
+          }));
+        })
+        .catch((error) => setErrorState(error.message));
+    } catch (error: any) {
+      return setErrorState(error.message);
+    }
+  }
 
   return (
     <div className={styles.container}>
