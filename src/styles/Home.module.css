@@ -126,8 +126,13 @@
 }
 
 .cardShortUrl {
+  min-height: 100px;
   padding: 1.5rem;
   background-color: #D8D2E1;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
   width: 80%;
   max-width: 800px;
   text-align: left;
@@ -135,9 +140,16 @@
   box-shadow: 5px 5px 5px rgb(123 96 129 / 52%);
   text-decoration: none;
   border-radius: 6px;
+  -webkit-transition: color 0.15s ease, border-color 0.15s ease;
   transition: color 0.15s ease, border-color 0.15s ease;
 }
-
+.successText {
+  font-size: 25px;
+  font-weight: bolder;
+}
+.resultText {
+  font-size: 20px;
+}
 .gridTitle {
   display: flex;
   align-items: center;

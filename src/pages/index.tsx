@@ -2,8 +2,11 @@ import Head from 'next/head';
 import styles from '@/styles/Home.module.css';
 import React, { useState } from 'react';
 import validUrl from 'valid-url';
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import Loader from 'react-loader-spinner';
 
 export default function Home() {
+  const [fetching, setFetching] = useState(false);
   const [url, setUrl] = useState({
     longUrl: ``,
     shortUrl: ``,
@@ -17,24 +20,24 @@ export default function Home() {
       errorMessage = `Something went wrong, please try again`;
     }
 
-    setUrl((prevState) => ({
+    setUrl((prevState: any) => ({
       ...prevState,
       error: errorMessage,
     }));
   };
 
   const clearState = () => {
-    setUrl({
-      longUrl: ``,
+    setUrl((prevState: any) => ({
+      ...prevState,
       shortUrl: ``,
       error: ``,
-    });
+    }));
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
-    setUrl((prevState) => ({
+    setUrl((prevState: any) => ({
       ...prevState,
       [name]: value,
       error: ``,
@@ -44,6 +47,7 @@ export default function Home() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     clearState();
+    setFetching(true);
     if (!url.longUrl || !validUrl.isUri(url.longUrl)) {
       return setErrorState(`Must be a fully qualified URL`);
     }
@@ -61,7 +65,7 @@ export default function Home() {
           const json = await res.json();
           const { shortUrl: newUrl } = json;
 
-          return setUrl((prevState) => ({
+          return setUrl((prevState: any) => ({
             ...prevState,
             shortUrl: newUrl,
           }));
@@ -70,6 +74,8 @@ export default function Home() {
     } catch (error: any) {
       return setErrorState(error.message);
     }
+
+    setFetching(false);
   }
 
   return (
@@ -112,13 +118,29 @@ export default function Home() {
           </div>
         </div>
 
-        {url.shortUrl ? (
+        {url.shortUrl || fetching ? (
           <div className={styles.gridResult}>
             <div className={styles.cardShortUrl}>
-              <div>Got that all shortened up for you:</div>
-              <a target="_blank" href={url.shortUrl} rel="noreferrer">
-                {url.shortUrl}
-              </a>
+              {fetching ? (
+                <Loader
+                  type="Puff"
+                  color="#00BFFF"
+                  height={100}
+                  width={100}
+                  timeout={3000} // 3 secs
+                />
+              ) : (
+                <>
+                  <div className={styles.successText}>
+                    Got that all shortened up for you
+                  </div>
+                  <div className={styles.resultText}>
+                    <a target="_blank" href={url.shortUrl} rel="noreferrer">
+                      {url.shortUrl}
+                    </a>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         ) : null}
